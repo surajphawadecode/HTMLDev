@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = '1227'
+        DOCKERHUB_CREDENTIALS = 'docker-hub-credentials-suraj'
         DOCKER_IMAGE_NAME = 'surajsp9/html-dev'
     }
 
