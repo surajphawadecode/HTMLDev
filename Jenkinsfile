@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = 'docker-hub-credentials-suraj'
+        DOCKER_REGISTRY_URL = 'https://registry.hub.docker.com'
         DOCKER_IMAGE_NAME = 'surajsp9/html-dev'
     }
 
@@ -34,7 +35,7 @@ pipeline {
                     def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
 
                     // Push Docker image to Docker Hub
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
+                    docker.withRegistry(DOCKER_REGISTRY_URL, DOCKERHUB_CREDENTIALS) {
                         dockerImage.push()
                     }
                 }
