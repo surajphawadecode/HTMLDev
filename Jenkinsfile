@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = 'docker-hub-credentials-suraj'
-        DOCKER_REGISTRY_URL = 'https://registry.hub.docker.com'
         DOCKER_IMAGE_NAME = 'surajsp9/html-dev'
     }
 
@@ -31,12 +30,12 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Build Docker image
-                    def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
+                    // Build Docker image using sudo
+                    sh "sudo docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
 
                     // Push Docker image to Docker Hub
-                    docker.withRegistry(DOCKER_REGISTRY_URL, DOCKERHUB_CREDENTIALS) {
-                        dockerImage.push()
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
+                        sh "sudo docker push ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
                     }
                 }
             }
