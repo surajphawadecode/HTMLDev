@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKERHUB_CREDENTIALS = '1227'
+        DOCKER_IMAGE_NAME = 'surajsp9/html-dev'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,14 +15,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Here you can perform build steps if needed.
+                // Perform build steps if needed
                 echo 'Building the project...'
             }
         }
 
         stage('Test') {
             steps {
-                // Here you can run tests if needed.
+                // Run tests if needed
                 echo 'Running tests...'
             }
         }
@@ -26,10 +31,10 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    def dockerImage = docker.build("your-docker-username/simple-html-project:${BUILD_NUMBER}")
+                    def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
 
                     // Push Docker image to Docker Hub
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
                         dockerImage.push()
                     }
                 }
@@ -38,7 +43,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Here you can define deployment steps.
+                // Define deployment steps
                 echo 'Deploying the project...'
             }
         }
