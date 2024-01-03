@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = 'docker-hub-credentials-suraj'
-        DOCKER_IMAGE_NAME = 'surajsp9/html-dev'
+       
     }
 
     stages {
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image using sudo
-                    sh "sudo docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
+                    sh "sudo docker build -t surajsp9/html-dev ."
 
                     // Push Docker image to Docker Hub
                     docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
