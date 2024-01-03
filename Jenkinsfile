@@ -22,6 +22,20 @@ pipeline {
             }
         }
 
+        stage('Build and Push Docker Image') {
+            steps {
+                script {
+                    // Build Docker image
+                    def dockerImage = docker.build("your-docker-username/simple-html-project:${BUILD_NUMBER}")
+
+                    // Push Docker image to Docker Hub
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 // Here you can define deployment steps.
